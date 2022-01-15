@@ -3,8 +3,7 @@ import { CONSTS } from "../actions/";
 const initialState = {
     heroes: [],
     heroesLoadingStatus: "idle",
-    filters: ["all"],
-    filteredHeroes: [],
+    filter: "all",
     filtersList: [],
 };
 
@@ -19,7 +18,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 heroes: action.payload,
-                filteredHeroes: action.payload,
                 filtersList: action.payload.map((hero) => hero.element),
                 heroesLoadingStatus: "idle",
             };
@@ -34,50 +32,12 @@ const reducer = (state = initialState, action) => {
                 heroes: state.heroes.filter(
                     (hero) => hero.id !== action.payload
                 ),
-                filteredHeroes: state.filteredHeroes.filter(
-                    (hero) => hero.id !== action.payload
-                ),
             };
-        case CONSTS.ADD_FILTER:
+        case CONSTS.CHANGE_FILTER:
             return {
                 ...state,
-                filters:
-                    action.payload === "all"
-                        ? ["all"]
-                        : [
-                              ...state.filters.filter((f) => f !== "all"),
-                              action.payload,
-                          ],
-                filteredHeroes:
-                    action.payload === "all"
-                        ? [...state.heroes]
-                        : state.heroes.filter(
-                              (hero) =>
-                                  hero.element === action.payload ||
-                                  state.filters.some((f) => f === hero.element)
-                          ),
+                filter: action.payload === "all" ? "all" : action.payload,
             };
-        case CONSTS.DELETE_FILTER: {
-            const newArrOfFilters = state.filters.filter(
-                (f) => f !== action.payload
-            );
-
-            return {
-                ...state,
-                filters:
-                    newArrOfFilters.length === 0 ? ["all"] : newArrOfFilters,
-                filteredHeroes:
-                    newArrOfFilters.length === 0
-                        ? [...state.heroes]
-                        : state.heroes.filter((hero) =>
-                              action.payload === hero.element
-                                  ? false
-                                  : state.filters.some(
-                                        (f) => f === hero.element
-                                    )
-                          ),
-            };
-        }
         case CONSTS.CREATE_HERO:
             return {
                 ...state,

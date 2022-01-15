@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./HeroesFilters.module.scss";
 
-import { addFilter, deleteFilter } from "../../state/actions";
+import { changeFilter } from "../../state/actions";
 
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
@@ -13,13 +13,11 @@ import { addFilter, deleteFilter } from "../../state/actions";
 // Представьте, что вы попросили бэкенд-разработчика об этом
 
 const HeroesFilters = () => {
-    const { filters } = useSelector((state) => state);
+    const { filter } = useSelector((state) => state);
     const dispatch = useDispatch();
 
     const changeFilters = (filter) => {
         let correctFilter;
-
-        console.log(filter);
 
         switch (filter) {
             case "Огонь":
@@ -38,13 +36,7 @@ const HeroesFilters = () => {
                 correctFilter = "all";
         }
 
-        console.log(correctFilter);
-
-        if (!filters.some((f) => f === correctFilter)) {
-            dispatch(addFilter(correctFilter));
-        } else {
-            dispatch(deleteFilter(correctFilter));
-        }
+        dispatch(changeFilter(correctFilter));
     };
 
     return (
@@ -54,9 +46,7 @@ const HeroesFilters = () => {
                 <div className="btn-group">
                     <button
                         className={`btn btn-outline-dark ${
-                            filters.some((filter) => filter === "all")
-                                ? styles.active
-                                : ""
+                            filter === "all" ? styles.active : ""
                         }`}
                         onClick={(e) => changeFilters(e.target.innerText)}
                     >
@@ -64,9 +54,7 @@ const HeroesFilters = () => {
                     </button>
                     <button
                         className={`btn btn-danger ${
-                            filters.some((filter) => filter === "fire")
-                                ? styles.active
-                                : ""
+                            filter === "fire" ? styles.active : ""
                         }`}
                         onClick={(e) => changeFilters(e.target.innerText)}
                     >
@@ -74,9 +62,7 @@ const HeroesFilters = () => {
                     </button>
                     <button
                         className={`btn btn-primary ${
-                            filters.some((filter) => filter === "water")
-                                ? styles.active
-                                : ""
+                            filter === "water" ? styles.active : ""
                         }`}
                         onClick={(e) => changeFilters(e.target.innerText)}
                     >
@@ -84,9 +70,7 @@ const HeroesFilters = () => {
                     </button>
                     <button
                         className={`btn btn-success ${
-                            filters.some((filter) => filter === "wind")
-                                ? styles.active
-                                : ""
+                            filter === "wind" ? styles.active : ""
                         }`}
                         onClick={(e) => changeFilters(e.target.innerText)}
                     >
@@ -94,9 +78,7 @@ const HeroesFilters = () => {
                     </button>
                     <button
                         className={`btn btn-secondary ${
-                            filters.some((filter) => filter === "earth")
-                                ? styles.active
-                                : ""
+                            filter === "earth" ? styles.active : ""
                         }`}
                         onClick={(e) => changeFilters(e.target.innerText)}
                     >

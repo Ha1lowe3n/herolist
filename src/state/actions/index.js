@@ -3,8 +3,7 @@ export const CONSTS = {
     HEROES_FETCHED: "HEROES_FETCHED",
     HEROES_FETCHING_ERROR: "HEROES_FETCHING_ERROR",
     DELETE_HERO: "DELETE_HERO",
-    ADD_FILTER: "ADD_FILTER",
-    DELETE_FILTER: "DELETE_FILTER",
+    CHANGE_FILTER: "CHANGE_FILTER",
     CREATE_HERO: "CREATE_HERO",
 };
 
@@ -26,13 +25,8 @@ export const deleteHero = (heroId) => ({
     payload: heroId,
 });
 
-export const addFilter = (filter) => ({
-    type: CONSTS.ADD_FILTER,
-    payload: filter,
-});
-
-export const deleteFilter = (filter) => ({
-    type: CONSTS.DELETE_FILTER,
+export const changeFilter = (filter) => ({
+    type: CONSTS.CHANGE_FILTER,
     payload: filter,
 });
 
