@@ -1,3 +1,14 @@
+import { useState } from "react";
+import { useHttp } from "../../hooks/http.hook";
+import { v4 } from "uuid";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+    createHero,
+    heroesFetching,
+    heroesFetchingError,
+} from "../../state/actions";
+
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
 // в общее состояние и отображаться в списке + фильтроваться
@@ -9,8 +20,43 @@
 // данных из фильтров
 
 const HeroesAddForm = () => {
+    const dispatch = useDispatch();
+    const { request } = useHttp();
+    const { filtersList } = useSelector((state) => state);
+
+    const [nameValue, setNameValue] = useState("");
+    const [descValue, setDescValue] = useState("");
+    const [elemValue, setElemValue] = useState("");
+
+    const changeName = (e) => setNameValue(e.currentTarget.value);
+    const changeDesc = (e) => setDescValue(e.currentTarget.value);
+    const changeElem = (e) => setElemValue(e.currentTarget.value);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        const newHero = {
+            id: v4(),
+            name: nameValue,
+            description: descValue,
+            element: elemValue,
+        };
+
+        dispatch(heroesFetching());
+        request(`http://localhost:3001/heroes`, "POST", JSON.stringify(newHero))
+            .then(() => dispatch(createHero(newHero)))
+            .catch((err) => {
+                console.error(err);
+                dispatch(heroesFetchingError());
+            });
+
+        setNameValue("");
+        setDescValue("");
+        setElemValue("");
+    };
+
     return (
-        <form className="border p-4 shadow-lg rounded">
+        <form className="border p-4 shadow-lg rounded" onSubmit={onSubmit}>
             <div className="mb-3">
                 <label htmlFor="name" className="form-label fs-4">
                     Имя нового героя
@@ -22,6 +68,8 @@ const HeroesAddForm = () => {
                     className="form-control"
                     id="name"
                     placeholder="Как меня зовут?"
+                    value={nameValue}
+                    onChange={changeName}
                 />
             </div>
 
@@ -36,6 +84,8 @@ const HeroesAddForm = () => {
                     id="text"
                     placeholder="Что я умею?"
                     style={{ height: "130px" }}
+                    value={descValue}
+                    onChange={changeDesc}
                 />
             </div>
 
@@ -48,6 +98,8 @@ const HeroesAddForm = () => {
                     className="form-select"
                     id="element"
                     name="element"
+                    value={elemValue}
+                    onChange={changeElem}
                 >
                     <option>Я владею элементом...</option>
                     <option value="fire">Огонь</option>

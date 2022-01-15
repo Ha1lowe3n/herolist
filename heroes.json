@@ -1,16 +1,22 @@
 {
   "heroes": [
     {
-      "id": 2,
-      "name": "Неизвестный герой",
-      "description": "Скрывающийся в тени",
-      "element": "wind"
+      "id": "4e99b12d-28ed-4deb-87aa-d1cd1831bd55",
+      "name": "ТЕЛО2019",
+      "description": "tfhfthfhf",
+      "element": "water"
     },
     {
-      "id": 3,
-      "name": "Морской герой",
-      "description": "Как аквамен, но не из DC",
+      "id": "065bc4a3-d424-461c-bede-f4506ee4f4ee",
+      "name": "Игорь",
+      "description": "rttrytryrtyt",
       "element": "water"
+    },
+    {
+      "id": "70443760-f626-40fe-b8dc-22ca13edcbaf",
+      "name": "даня",
+      "description": "gjfj",
+      "element": "earth"
     }
   ],
   "filters": [

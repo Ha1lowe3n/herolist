@@ -5,6 +5,7 @@ export const CONSTS = {
     DELETE_HERO: "DELETE_HERO",
     ADD_FILTER: "ADD_FILTER",
     DELETE_FILTER: "DELETE_FILTER",
+    CREATE_HERO: "CREATE_HERO",
 };
 
 export const heroesFetching = () => ({
@@ -33,4 +34,9 @@ export const addFilter = (filter) => ({
 export const deleteFilter = (filter) => ({
     type: CONSTS.DELETE_FILTER,
     payload: filter,
+});
+
+export const createHero = (hero) => ({
+    type: CONSTS.CREATE_HERO,
+    payload: hero,
 });

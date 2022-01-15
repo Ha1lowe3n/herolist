@@ -5,6 +5,7 @@ const initialState = {
     heroesLoadingStatus: "idle",
     filters: ["all"],
     filteredHeroes: [],
+    filtersList: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,6 +20,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 heroes: action.payload,
                 filteredHeroes: action.payload,
+                filtersList: action.payload.map((hero) => hero.element),
                 heroesLoadingStatus: "idle",
             };
         case CONSTS.HEROES_FETCHING_ERROR:
@@ -30,6 +32,9 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 heroes: state.heroes.filter(
+                    (hero) => hero.id !== action.payload
+                ),
+                filteredHeroes: state.filteredHeroes.filter(
                     (hero) => hero.id !== action.payload
                 ),
             };
@@ -73,6 +78,12 @@ const reducer = (state = initialState, action) => {
                           ),
             };
         }
+        case CONSTS.CREATE_HERO:
+            return {
+                ...state,
+                heroes: [...state.heroes, action.payload],
+                heroesLoadingStatus: "idle",
+            };
         default:
             return state;
     }
