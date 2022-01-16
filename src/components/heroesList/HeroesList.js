@@ -9,7 +9,7 @@ import {
     heroesFetched,
     heroesFetchingError,
     deleteHero,
-} from "../../state/actions";
+} from "../../state/slice";
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
 

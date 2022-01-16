@@ -7,7 +7,7 @@ import {
     createHero,
     heroesFetching,
     heroesFetchingError,
-} from "../../state/actions";
+} from "../../state/slice";
 
 const HeroesAddForm = () => {
     const dispatch = useDispatch();

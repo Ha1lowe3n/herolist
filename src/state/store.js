@@ -1,16 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { createStore } from "redux";
-import reducer from "./reducers";
 
-// const store = createStore(
-//     reducer,
-//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-// );
+import reducer from "./slice";
 
 const store = configureStore({
     reducer: reducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
     devTools: process.env.NODE_ENV !== "production",
 });
+
+console.log(store.getState());
 
 export default store;
