@@ -1,17 +1,11 @@
 import { useState } from "react";
-import { useHttp } from "../../hooks/http.hook";
 import { nanoid } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 
-import {
-    createHero,
-    heroesFetching,
-    heroesFetchingError,
-} from "../../state/slice";
+import { createHero } from "../../state/slice";
 
 const HeroesAddForm = () => {
     const dispatch = useDispatch();
-    const { request } = useHttp();
 
     const [nameValue, setNameValue] = useState("");
     const [descValue, setDescValue] = useState("");
@@ -24,20 +18,14 @@ const HeroesAddForm = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        const newHero = {
-            id: nanoid(),
-            name: nameValue,
-            description: descValue,
-            element: elemValue,
-        };
-
-        dispatch(heroesFetching());
-        request(`http://localhost:3001/heroes`, "POST", JSON.stringify(newHero))
-            .then(() => dispatch(createHero(newHero)))
-            .catch((err) => {
-                console.error(err);
-                dispatch(heroesFetchingError());
-            });
+        dispatch(
+            createHero({
+                id: nanoid(),
+                name: nameValue,
+                description: descValue,
+                element: elemValue,
+            })
+        );
 
         setNameValue("");
         setDescValue("");
