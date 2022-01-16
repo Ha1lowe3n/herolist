@@ -2,6 +2,7 @@ import { useHttp } from "../../hooks/http.hook";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { createSelector } from "reselect";
 
 import {
     heroesFetching,
@@ -13,20 +14,27 @@ import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
 
 const HeroesList = () => {
-    const filteredHeroes = useSelector((state) => {
-        if (state.filter === "all") {
-            return state.heroes;
-        } else {
-            return state.heroes.filter((hero) => hero.element === state.filter);
+    const filteredHeroesSelector = createSelector(
+        (state) => state.heroes,
+        (state) => state.filter,
+        (heroes, filter) => {
+            if (filter === "all") {
+                return heroes;
+            } else {
+                return heroes.filter((hero) => hero.element === filter);
+            }
         }
-    });
-    const { heroesLoadingStatus } = useSelector((state) => state);
+    );
+
+    const filteredHeroes = useSelector(filteredHeroesSelector);
+    const heroesLoadingStatus = useSelector(
+        (state) => state.heroesLoadingStatus
+    );
     const dispatch = useDispatch();
     const { request } = useHttp();
 
     useEffect(() => {
         dispatch(heroesFetching());
-        console.log("use effect");
         request("http://localhost:3001/heroes")
             .then((data) => dispatch(heroesFetched(data)))
             .catch(() => dispatch(heroesFetchingError()));

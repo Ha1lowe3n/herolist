@@ -7,6 +7,8 @@ import store from "./state/store";
 
 import "./styles/index.scss";
 
+console.log(store.getState());
+
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>

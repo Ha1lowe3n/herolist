@@ -1,3 +1,5 @@
+import { createAction } from "@reduxjs/toolkit";
+
 export const CONSTS = {
     HEROES_FETCHING: "HEROES_FETCHING",
     HEROES_FETCHED: "HEROES_FETCHED",
@@ -7,30 +9,14 @@ export const CONSTS = {
     CREATE_HERO: "CREATE_HERO",
 };
 
-export const heroesFetching = () => ({
-    type: CONSTS.HEROES_FETCHING,
-});
+export const heroesFetching = createAction(CONSTS.HEROES_FETCHING);
 
-export const heroesFetched = (heroes) => ({
-    type: CONSTS.HEROES_FETCHED,
-    payload: heroes,
-});
+export const heroesFetched = createAction(CONSTS.HEROES_FETCHED);
 
-export const heroesFetchingError = () => ({
-    type: CONSTS.HEROES_FETCHING_ERROR,
-});
+export const heroesFetchingError = createAction(CONSTS.HEROES_FETCHING_ERROR);
 
-export const deleteHero = (heroId) => ({
-    type: CONSTS.DELETE_HERO,
-    payload: heroId,
-});
+export const deleteHero = createAction(CONSTS.DELETE_HERO);
 
-export const changeFilter = (filter) => ({
-    type: CONSTS.CHANGE_FILTER,
-    payload: filter,
-});
+export const changeFilter = createAction(CONSTS.CHANGE_FILTER);
 
-export const createHero = (hero) => ({
-    type: CONSTS.CREATE_HERO,
-    payload: hero,
-});
+export const createHero = createAction(CONSTS.CREATE_HERO);
