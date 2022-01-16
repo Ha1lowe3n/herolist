@@ -1,4 +1,13 @@
-import { CONSTS } from "../actions/";
+import { createReducer } from "@reduxjs/toolkit";
+
+import {
+    heroesFetching,
+    heroesFetchingError,
+    heroesFetched,
+    deleteHero,
+    createHero,
+    changeFilter,
+} from "../actions";
 
 const initialState = {
     heroes: [],
@@ -7,46 +16,31 @@ const initialState = {
     filtersList: [],
 };
 
-const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case CONSTS.HEROES_FETCHING:
-            return {
-                ...state,
-                heroesLoadingStatus: "loading",
-            };
-        case CONSTS.HEROES_FETCHED:
-            return {
-                ...state,
-                heroes: action.payload,
-                filtersList: action.payload.map((hero) => hero.element),
-                heroesLoadingStatus: "idle",
-            };
-        case CONSTS.HEROES_FETCHING_ERROR:
-            return {
-                ...state,
-                heroesLoadingStatus: "error",
-            };
-        case CONSTS.DELETE_HERO:
-            return {
-                ...state,
-                heroes: state.heroes.filter(
-                    (hero) => hero.id !== action.payload
-                ),
-            };
-        case CONSTS.CHANGE_FILTER:
-            return {
-                ...state,
-                filter: action.payload === "all" ? "all" : action.payload,
-            };
-        case CONSTS.CREATE_HERO:
-            return {
-                ...state,
-                heroes: [...state.heroes, action.payload],
-                heroesLoadingStatus: "idle",
-            };
-        default:
-            return state;
-    }
-};
+const reducer = createReducer(initialState, (build) => {
+    build
+        .addCase(heroesFetching, (state) => {
+            state.heroesLoadingStatus = "loading";
+        })
+        .addCase(heroesFetched, (state, action) => {
+            state.heroes = action.payload;
+            state.filtersList = action.payload.map((hero) => hero.element);
+            state.heroesLoadingStatus = "idle";
+        })
+        .addCase(heroesFetchingError, (state) => {
+            state.heroesLoadingStatus = "error";
+        })
+        .addCase(deleteHero, (state, action) => {
+            state.heroes = state.heroes.filter(
+                (hero) => hero.id !== action.payload
+            );
+        })
+        .addCase(createHero, (state, action) => {
+            state.heroes.push(action.payload);
+            state.heroesLoadingStatus = "idle";
+        })
+        .addCase(changeFilter, (state, action) => {
+            state.filter = action.payload;
+        });
+});
 
 export default reducer;
